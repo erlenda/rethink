@@ -1,0 +1,43 @@
+{
+  "name": "rethink",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erlenda/rethink.git"
+  },
+  "keywords": [
+    "rethinkdb",
+    "kds",
+    "talk",
+    "reactjs"
+  ],
+  "devDependencies": {
+    "browserify": "^11.0.1",
+    "connect-livereload": "^0.5.3",
+    "express": "^4.13.3",
+    "gulp-develop-server": "^0.4.3",
+    "gulp-duration": "0.0.0",
+    "gulp-express": "^0.3.5",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-util": "^3.0.6",
+    "gulp-webserver": "^0.9.1",
+    "gulp-xml2json": "^0.1.4",
+    "react": "^0.13.3",
+    "reactify": "^1.1.1",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.3.1"
+  },
+  "author": "Erlend Andresen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/erlenda/rethink/issues"
+  },
+  "homepage": "https://github.com/erlenda/rethink#readme"
+}
