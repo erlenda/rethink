@@ -1,18 +1,20 @@
 var React = require('React');
+var LeagueStore = require('../stores/leagueStore');
 
 var Table = React.createClass({
   render: function() {
     var teams = [
-        {name: 'Team A', won: 1, lost: 2, tie: 3},
-        {name: 'Team B', won: 1, lost: 2, tie: 3},
-        {name: 'Team C', won: 1, lost: 2, tie: 3}
-      ].map(function(team, index) {
-      return <tr key={index}>
+      {name: 'Team A', won: 1, lost: 2, tie: 3},
+      {name: 'Team B', won: 1, lost: 2, tie: 3},
+      {name: 'Team C', won: 1, lost: 2, tie: 3}
+    ].map(function(team, index) {
+    return
+      <tr key={index}>
         <td>{team.name}</td>
         <td>{team.won}</td>
         <td>{team.lost}</td>
         <td>{team.tie}</td>
-        </tr>;
+      </tr>;
     });
     return(
       <table className="highlight bordered">
