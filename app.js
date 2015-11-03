@@ -1,4 +1,5 @@
 var React = require('React');
+// var LeagueStore = require('./js/stores/leagueStore')();
 var Table = require('./js/compos/table');
 var TestConn = require('./js/compos/testConn');
 

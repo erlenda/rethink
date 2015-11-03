@@ -1,37 +1,37 @@
 var React = require('react');
 var ReactRethinkdb = require('react-rethinkdb');
-var r = require('rethinkdb');
+var r = ReactRethinkdb.r;
 
 var leagueStore = function () {
-  var init = function () {
-    // tbl create
-    r.connect(connCfg, function(err, conn) {
-      r.db('test').tableCreate('tv_shows').run(conn, function(err, res) {
-        if(err) throw err;
-        console.log(res);
-        // table insert
-        r.table('tv_shows').insert({ name: 'Star Trek TNG' }).run(conn, function(err, res)
-        {
-          if(err) throw err;
-          console.log(res);
-        });
-      });
+  (function() {
+    ReactRethinkdb.DefaultSession.connect({
+      host: 'localhost',          // hostname of the websocket server
+      port: 8015,                 // port number of the websocket server
+      path: '/',                  // HTTP path to websocket route
+      secure: false,              // set true to use secure TLS websockets
+      db: 'test',                 // default database, passed to rethinkdb.connect
+      autoReconnectDelayMs: 2000, // when disconnected, millis to wait before reconnect
     });
+  })();
+
+  var observeTeams = function(props, state) {
+    return {
+      teams: new ReactRethinkdb.QueryRequest({
+        query: r.table('teams'),            // query
+        changes: true,                      // subscribe
+        initial: [], // while loading
+      })
+    };
   };
 
-  var conn = function () {
-    console.log('conn() runs');
-    var connection = null;
-    r.connect( {host: 'localhost', port: 28015}, function(err, conn) {
-        if (err) throw err;
-        connection = conn;
-        console.log('conn set');
-    })
+  var addTeam = function(name) {
+    var query = r.table('teams').insert({teamName: name, won: 0, lost: 0, tie: 0});
+    ReactRethinkdb.DefaultSession.runQuery(query)
   };
 
   return {
-    init: init,
-    conn: conn,
+    observeTeams: observeTeams,
+    addTeam: addTeam
   };
 };
 
