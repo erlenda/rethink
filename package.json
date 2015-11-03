@@ -20,6 +20,7 @@
     "browserify": "^11.0.1",
     "connect-livereload": "^0.5.3",
     "express": "^4.13.3",
+    "gulp-connect": "^2.2.0",
     "gulp-develop-server": "^0.4.3",
     "gulp-duration": "0.0.0",
     "gulp-express": "^0.3.5",
@@ -30,7 +31,9 @@
     "gulp-webserver": "^0.9.1",
     "gulp-xml2json": "^0.1.4",
     "react": "^0.13.3",
+    "react-rethinkdb": "^0.4.1",
     "reactify": "^1.1.1",
+    "rethinkdb-websocket-server": "^0.2.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.1"
   },

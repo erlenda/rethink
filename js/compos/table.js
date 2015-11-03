@@ -1,5 +1,4 @@
 var React = require('React');
-var LeagueStore = require('../stores/leagueStore');
 
 var Table = React.createClass({
   render: function() {

@@ -2,6 +2,7 @@ var fs = require('fs');
 var gulp = require('gulp');
 var rename = require('gulp-rename');
 var replace = require('gulp-replace');
+var websocketServer = require('./js/server/index');
 var webserver = require('gulp-webserver');
 var notify = require('gulp-notify');
 var gutil = require('gulp-util');
@@ -28,22 +29,13 @@ function notifyNewBundle () {
 }
 
 gulp.task('webserver', function() {
-  gulp.src('./')
+  gulp.src('app')
     .pipe(webserver({
       livereload: {
-        fallback: 'index.html',
-        enable: true, // need this set to true to enable livereload
-        filter: function(fileName) {
-          if (fileName.match(/.map$/)) { // exclude all source maps from livereload
-            return false;
-          }
-          else {
-            return true;
-          }
-        }
+        enable: true
       },
-      directoryListing: true,
-      open: true
+      fallback: 'index.html',
+      directoryListing: false
     }));
 });
 
@@ -71,7 +63,7 @@ function scripts(watch) {
     var stream = bundler.bundle();
     stream.on('error', handleError);
     stream = stream.pipe(source('app.js'));
-    return stream.pipe(gulp.dest('./dist'));
+    return stream.pipe(gulp.dest('./app/dist'));
   };
 
   bundler.on('update', function () {
@@ -85,13 +77,12 @@ gulp.task("bundle-js", function () {
   return scripts(false);
 });
 
+gulp.task("websocketServer", function() {
+  websocketServer(true);
+});
+
 gulp.task('bundle-js-watch', ['bundle-js'], function () {
   return scripts(true);
 });
 
-gulp.task('watcher', function () {
-    gulp.watch('.**/*.html')
-
-});
-
-gulp.task("default", ['webserver', 'bundle-js-watch', 'watcher']);
+gulp.task("default", ['webserver', 'websocketServer', 'bundle-js-watch']);

@@ -1,13 +1,11 @@
+var React = require('react');
+var ReactRethinkdb = require('react-rethinkdb');
 var r = require('rethinkdb');
 
 var leagueStore = function () {
-
-  var initTvShows = function () {
-    // connect
-    r.connect({ host: 'localhost', port: 28015 }, function(err, conn) {
-      if(err) throw err;
-
-      // tbl create
+  var init = function () {
+    // tbl create
+    r.connect(connCfg, function(err, conn) {
       r.db('test').tableCreate('tv_shows').run(conn, function(err, res) {
         if(err) throw err;
         console.log(res);
@@ -21,22 +19,19 @@ var leagueStore = function () {
     });
   };
 
-  var testConnection = function() {
-    r.connect({ host: 'localhost', port: 28015 },
-      function(err, conn) {
-        if(err) {
-          throw err;
-        } else {
-          console.log('successfully connected');
-          return true;
-        }
-      }
-    );
+  var conn = function () {
+    console.log('conn() runs');
+    var connection = null;
+    r.connect( {host: 'localhost', port: 28015}, function(err, conn) {
+        if (err) throw err;
+        connection = conn;
+        console.log('conn set');
+    })
   };
 
   return {
     init: init,
-    testConnection: testConnection,
+    conn: conn,
   };
 };
 
