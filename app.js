@@ -1,5 +1,5 @@
 var React = require('React');
-// var LeagueStore = require('./js/stores/leagueStore')();
+var LeagueStore = require('./js/stores/leagueStore')().connect();
 var Table = require('./js/compos/table');
 var TestConn = require('./js/compos/testConn');
 
@@ -9,8 +9,8 @@ React.render(
       <div className="row">
         <div className="col s12 m5">
           <div className="card-panel grey lighten-3">
-            <Table />
             <TestConn />
+            <Table />
           </div>
         </div>
       </div>

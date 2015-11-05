@@ -1,19 +1,18 @@
 var React = require('React');
+var ReactRethinkdb = require('react-rethinkdb');
+var LeagueStore = require('../stores/leagueStore')();
 
 var Table = React.createClass({
+  mixins: [ReactRethinkdb.DefaultMixin],
+  observe: LeagueStore.observeTeams,
   render: function() {
-    var teams = [
-      {name: 'Team A', won: 1, lost: 2, tie: 3},
-      {name: 'Team B', won: 1, lost: 2, tie: 3},
-      {name: 'Team C', won: 1, lost: 2, tie: 3}
-    ].map(function(team, index) {
-    return
-      <tr key={index}>
-        <td>{team.name}</td>
-        <td>{team.won}</td>
-        <td>{team.lost}</td>
-        <td>{team.tie}</td>
-      </tr>;
+    var teamRows = this.data.teams.value().map(function(t) {
+      return  <tr key={t.id}>
+                <td>{t.name}</td>
+                <td>{t.won}</td>
+                <td>{t.lost}</td>
+                <td>{t.tie}</td>
+              </tr>;
     });
     return(
       <table className="highlight bordered">
@@ -26,7 +25,7 @@ var Table = React.createClass({
          </tr>
        </thead>
        <tbody>
-            {teams}
+            {teamRows}
        </tbody>
      </table>
     );
