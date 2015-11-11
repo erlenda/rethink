@@ -19,9 +19,9 @@ var leagueStore = function () {
   var observeTeams = function(props, state) {
     return {
       teams: new ReactRethinkdb.QueryRequest({
-        query: r.table('teams'),            // query
-        changes: true,                      // subscribe
-        initial: [], // while loading
+        query: r.table('teams'),  // query
+        changes: true,            // subscribe
+        initial: [],              // while loading
       })
     };
   };
