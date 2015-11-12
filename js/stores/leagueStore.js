@@ -32,9 +32,9 @@ var leagueStore = function () {
   };
 
   var resetTeams = function() {
-    var query = r.table('teams').delete();
-    ReactRethinkdb.DefaultSession.runQuery(query)
-  } ;
+    query = r.table('teams').delete();
+    ReactRethinkdb.DefaultSession.runQuery(query);
+  };
 
   return {
     connect: connect,

@@ -5,8 +5,10 @@ var LeagueStore = require('../stores/leagueStore')();
 var testConnection = React.createClass({
   mixins: [ReactRethinkdb.DefaultMixin],
   observe: LeagueStore.observeTeams,
-  click: function () {
-    LeagueStore.addTeam('test123');
+  addTeam: function () {
+    var value = document.getElementById('newTeamName').value;
+    LeagueStore.addTeam(value);
+    document.getElementById('newTeamName').value = '';
   },
   reset: function () {
     LeagueStore.resetTeams();
@@ -14,8 +16,9 @@ var testConnection = React.createClass({
   render: function () {
     return(
     <div>
-      <a onClick={this.click} className="waves-effect waves-light btn">Test connection</a>
-      <a onClick={this.reset} className="waves-effect waves-light btn">Reset</a>
+      <input type="text" id="newTeamName" placeholder="teamname" />
+      <a onClick={this.addTeam} className="waves-effect waves-light btn">Add team</a>
+      <a onClick={this.reset} className="waves-effect waves-light btn">Reset teams</a>
     </div>);
   }
 });
