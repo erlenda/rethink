@@ -2,7 +2,6 @@ var React = require('React');
 var LeagueStore = require('./js/stores/leagueStore')().connect();
 var Table = require('./js/compos/table');
 var TestConn = require('./js/compos/testConn');
-var Navbar = require('./js/compos/navbar');
 
 var Router = require('react-router').Router
 var Route = require('react-router').Route
@@ -12,13 +11,12 @@ React.render((
   <div className="container">
       <div className="row">
         <div className="col s12 m12 l12">
-          <Navbar />
+          <TestConn />
         </div>
       </div>
       <div className="row">
-        <div className="col s12 m5">
+        <div className="col s12 m12 l12">
           <div className="card-panel grey lighten-3">
-            <TestConn />
             <Table />
           </div>
         </div>
@@ -26,9 +24,3 @@ React.render((
     </div>),
   document.getElementById('app')
 );
-
-// <Router>
-//   <Route path="/" component={Table}>
-//     <Route path="testconn" component={TestConn} />
-//   </Route>
-// </Router>

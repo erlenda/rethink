@@ -7,10 +7,6 @@ var Navbar = React.createClass({
       <div className="navbar-fixed">
         <nav>
           <div className="nav-wrapper">
-            <ul className="left">
-              <li><Link to="">home</Link></li>
-              <li><Link to="/testconn">testconn</Link></li>
-            </ul>
           </div>
         </nav>
       </div>
