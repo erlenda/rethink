@@ -31,10 +31,16 @@ var leagueStore = function () {
     ReactRethinkdb.DefaultSession.runQuery(query)
   };
 
+  var resetTeams = function() {
+    var query = r.table('teams').delete();
+    ReactRethinkdb.DefaultSession.runQuery(query)
+  } ;
+
   return {
     connect: connect,
     observeTeams: observeTeams,
-    addTeam: addTeam
+    addTeam: addTeam,
+    resetTeams: resetTeams
   };
 };
 

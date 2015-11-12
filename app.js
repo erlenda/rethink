@@ -8,28 +8,29 @@ var Router = require('react-router').Router
 var Route = require('react-router').Route
 var Link = require('react-router').Link
 
-// <TestConn />
-// <Table />
-
 React.render(
   <div className="container">
-    <h1>Rethink</h1>
       <div className="row">
         <div className="col s12 m12 l12">
           <Navbar />
         </div>
       </div>
+
+      <h1>Rethink</h1>
+
       <div className="row">
         <div className="col s12 m5">
-          <div className="card-panel grey lighten-3">
-            <Router>
-              <Route path="/" component={Table}>
-                <Route path="testconn" component={TestConn}/>
-              </Route>
-            </Router>
+          <div className="card-panel grey lighten-3">      
+            <TestConn />
+            <Table />
           </div>
         </div>
       </div>
     </div>,
   document.getElementById('app')
 );
+/*            // <Router>
+            //   <Route path="/" component={Table}>
+            //     <Route path="testconn" component={TestConn}/>
+            //   </Route>
+            // </Router>*/

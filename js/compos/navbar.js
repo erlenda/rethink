@@ -8,7 +8,7 @@ var Navbar = React.createClass({
         <nav>
           <div className="nav-wrapper">
             <ul className="left">
-              <li><Link to="/">home</Link></li>
+              <li><Link to="">home</Link></li>
               <li><Link to="/testconn">testconn</Link></li>
             </ul>
           </div>
@@ -17,5 +17,6 @@ var Navbar = React.createClass({
     );
   }
 });
+
 
 module.exports = Navbar;
