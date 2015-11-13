@@ -40,7 +40,7 @@ var leagueStore = function () {
     connect: connect,
     observeTeams: observeTeams,
     addTeam: addTeam,
-    resetTeams: resetTeams
+    resetTeams: resetTeams,
   };
 };
 

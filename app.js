@@ -1,6 +1,7 @@
 var React = require('React');
 var LeagueStore = require('./js/stores/leagueStore')().connect();
-var Table = require('./js/compos/table');
+var Table = require('./js/compos/mostWins');
+var MostWins = require('./js/compos/table');
 var TestConn = require('./js/compos/testConn');
 
 var Router = require('react-router').Router
@@ -14,6 +15,9 @@ React.render((
           <TestConn />
         </div>
       </div>
+
+      <MostWins />
+
       <div className="row">
         <div className="col s12 m12 l12">
           <div className="card-panel grey lighten-3">
