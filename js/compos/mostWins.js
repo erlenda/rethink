@@ -4,25 +4,15 @@ var LeagueStore = require('../stores/leagueStore')();
 var r = require('rethinkdb');
 
 module.exports = React.createClass({
-  getInitialState: function() {
-
-    var connection = new WebSocket('ws://localhost:8015');
-
-    connection.onopen = function () {
-      console.log('onopen');
-    };
-
-    connection.onmessage = function (msg) {
-      console.log('onmessage');
-    };
-      return {
-        connection: connection,
-        mostWins: 'undecided'
-      };
-    },
+  mixins: [ReactRethinkdb.DefaultMixin],
+  observe: LeagueStore.observeMostWins,
   render: function() {
+    this.data.mostWins.value().map( function (match) {
+      console.log(match);
+    });
+    var mostWins = 'undefined';
     return(
-      <div>{this.state.mostWins}</div>
+      <div><p>{mostWins}</p></div>
     );
   }
 });

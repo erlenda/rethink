@@ -26,6 +26,16 @@ var leagueStore = function () {
     };
   };
 
+  var observeMostWins = function(props, state) {
+    return {
+      mostWins: new ReactRethinkdb.QueryRequest({
+        query: r.table('matches'),  // query
+        changes: true,            // subscribe
+        initial: [],              // while loading
+      })
+    };
+  };
+
   var addTeam = function(name) {
     var query = r.table('teams').insert({name: name, won: 0, lost: 0, tie: 0});
     ReactRethinkdb.DefaultSession.runQuery(query)
@@ -41,6 +51,7 @@ var leagueStore = function () {
     observeTeams: observeTeams,
     addTeam: addTeam,
     resetTeams: resetTeams,
+    observeMostWins: observeMostWins
   };
 };
 

@@ -2,8 +2,9 @@ r = require('rethinkdb');
 var teamPool = require('./teampool');
 
 var shortTick = 25,
-    longTick = 1000,
-    connection = null
+longTick = 1000,
+connection = null
+matchesNo = 1;
 
 var connect = function (callback) {
   r.connect( {host: 'localhost', port: 28015}, callback);
@@ -40,15 +41,25 @@ var initTeams = function () {
     if(count === teamPool.length-1) {
       clearInterval(interval);
       var innerInterval = setInterval( function () {
-          if(innerCounter === 1) {
-            clearInterval(innerInterval)
-          }
-          insertRandomMatch();
-          innerCounter++;
-        }, longTick);
+        if(innerCounter === matchesNo) {
+          clearInterval(innerInterval)
+        }
+        insertRandomMatch();
+        innerCounter++;
+      }, longTick);
     }
   }, shortTick);
 
+};
+
+
+var insertRandomMatch = function () {
+  getRandomMatch(function(match){
+    r.table('matches').insert(match).run(connection, function (err,res) {
+      if(err) throw err;
+      console.log(JSON.stringify(res, null, 2));
+    });
+  });
 };
 
 var insertTeam = function (index) {
@@ -59,54 +70,41 @@ var insertTeam = function (index) {
   });
 };
 
-var getRandomMatch = function () {
-  r.table('teams').run(connection)
-  .then(function innerGet(err, cursor) {
+function getRandomMatch(callback) {
+
+  r.table('teams').run(connection, function (err, res) {
     if(err) throw err;
+    res.toArray( function (err, res) {
+      if(err) throw err;
+      var teamId1 = '';
+      var teamId2 = '';
 
-    var team1 = teamPool[getRandomInt(0, teamPool.length-1)];
-    var team2 = teamPool[getRandomInt(0, teamPool.length-1)];
-    var team1id = 0;
-    var team2id = 0;
+      var idx1 = getRandomInt(0, teamPool.length-1);
+      var idx2 = getRandomInt(0, teamPool.length-1)
+      var team1 = teamPool[idx1];
+      var team2 = teamPool[idx2];
 
-    //console.log(cursor.toArray());
-    cursor.toArray().map(function(row){
-      console.log(row.name + ' === ' + team1);
-      if(row.name === team1) {
-        team1id = row.id;
-      }
+      res.map(function (row) {
+        console.log(JSON.stringify(row, null, 2));
+        if(row.name === team1) {
+          teamId1 = row.id;
+        }
+        if(row.name === team2) {
+          teamId2 = row.id;
+        }
+      });
 
-      if(row.name === team2) {
-        team2id = row.id;
-      }
-    });
+      var match = {
+        team1: teamId1,
+        team2: teamId2,
+        score: [getRandomInt(0,5), getRandomInt(0,5)]
+      };
 
-    var match = {
-      team1: team1id,
-      team2: team2id,
-      score: [getRandomInt(0,5), getRandomInt(0,5)]
-    };
-
-    if(match.score[0] === match.score[1]) {
-      match.winner = null;
-    } else {
       match.winner = match.score[0] > match.score[1] ? match.team1 : match.team2;
-    }
-    // console.log(JSON.stringify(match, null, 2));
-    return match;
-  }).then(function (match) {
-    console.log(JSON.stringify(match, null, 2));
-    return match;
-  }).error(function (err) {
-    console.log(err);
-  });
-};
+      //console.log(JSON.stringify(match, null, 2));
 
-var insertRandomMatch = function () {
-  var match = getRandomMatch();
-
-  r.table('matches').insert(match).run(connection, function (err,res){
-    if(err) throw err;
-    //console.log(JSON.stringify(res, null, 2));
+      return callback(match);
+    });
   });
-};
+
+  }
