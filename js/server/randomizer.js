@@ -40,7 +40,7 @@ var initTeams = function () {
     if(count === teamPool.length-1) {
       clearInterval(interval);
       var innerInterval = setInterval( function () {
-          if(innerCounter === 450) {
+          if(innerCounter === 1) {
             clearInterval(innerInterval)
           }
           insertRandomMatch();
@@ -60,12 +60,8 @@ var insertTeam = function (index) {
 };
 
 var getRandomMatch = function () {
-
-  var setMatch = null;
-  r.table('teams').run(connection, innerGet);
-  return setMatch;
-
-  function innerGet(err, res) {
+  r.table('teams').run(connection)
+  .then(function innerGet(err, cursor) {
     if(err) throw err;
 
     var team1 = teamPool[getRandomInt(0, teamPool.length-1)];
@@ -97,8 +93,13 @@ var getRandomMatch = function () {
       match.winner = match.score[0] > match.score[1] ? match.team1 : match.team2;
     }
     // console.log(JSON.stringify(match, null, 2));
-    setMatch = match;
-  }
+    return match;
+  }).then(function (match) {
+    console.log(JSON.stringify(match, null, 2));
+    return match;
+  }).error(function (err) {
+    console.log(err);
+  });
 };
 
 var insertRandomMatch = function () {
